@@ -1,4 +1,6 @@
 import pygame
+import random
+
 from pygame.examples.sprite_texture import running
 
 pygame.init()
@@ -19,6 +21,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 clock = pygame.time.Clock()
 
+def gen(num):
+    # list comprehension. Nice!
+    return set([(random.randrange(0, GRID_HEIGHT), random.randrange(0, GRID_WIDTH)) for _ in range(num)])
+
 # function to draw our grid
 def draw_grid(positions):
     for position in positions:
@@ -35,6 +41,7 @@ def draw_grid(positions):
 # writes the main loop
 def main():
     running = True
+    playing = False
 
     positions = set()
     while running:
@@ -43,6 +50,28 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                col = x // TILE_SIZE
+                row = y // TILE_SIZE
+                pos = (col, row)
+
+                if pos in positions:
+                    positions.remove(pos)
+                else:
+                    positions.add(pos)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    playing = not playing
+
+                if event.key == pygame.K_c:
+                    positions = set()
+                    playing = False
+
+                if event.key == pygame.K_g:
+                    positions = gen(random.randrange(4, 10) * GRID_WIDTH)
 
         screen.fill(GREY)
         draw_grid(positions)
