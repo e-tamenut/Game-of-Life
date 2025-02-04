@@ -24,6 +24,6 @@ This is a Python implementation of Conway's Game of Life, a cellular automaton w
 2. Install the required dependencies:  
    `pip install pygame`
 3. Run the script:
-   `python conways_game_of_life.py`
+   `python main.py`while in the corresponding directory 
 
 Enjoy experimenting with various configurations and see how the patterns evolve!
